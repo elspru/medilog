@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+ <!--<html manifest="qameditation.appcache" lang="en"> -->
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;
+    charset=utf-8"/>
+    <title>QA Meditation Log</title>
+    <meta name="viewport" content="width=device-width, 
+        initial-scale=1" />
+    <link href="css/style-0.1.css" rel="stylesheet"/>
+    <link href="img/bell-32.png" rel="shortcut icon"/>
+</head>
+<body>
+<div class="background">
+    <audio id="bell" src="sounds/bell.mp3" preload="auto">
+    </audio>
+    <div id="menuBar">
+    <button id="setup" type="button"
+        >Setup</button>
+    <button id="menu"
+        type="button">Menu</button>
+    </div>
+    <div id="content">
+    </div>
+</div>
+<div id="tempArea"></div>
+<script id="loginScreen" type="text/html">
+    <ul>
+        <li><button type="button">Start New</button></li>
+        <li><button type="button">upload</button></li>
+        <li><button type="button">resume</button></li>
+    </ul>
+</script>
+<script id="mainMenu" type="text/html">
+    <ul>
+        <!--<li><button id="meditate" type="button">Meditate
+        </button></li>-->
+        <li><button id="addEntry" type="button">Add Entry
+        </button></li>
+        <!--<li><button id="delEntry" type="button">Remove Entry
+        </button></li>-->
+        <li><button id="stats" type="button">View Stats
+        </button></li>
+        <li><button id="download" type="button">Download Log
+        </button></li>
+    </ul>
+</script>
+
+<script id="statScreen" type="text/html">
+    <table>
+    <tr>
+    <th>Type</th><th>Completed</th><th>Achieved</th>
+    </tr>
+    <tr>
+    <td>Sitting Meditation</td><td id="sitTotal"></td>
+    <td id="sitPercent"></td>
+    </tr>
+    <tr>
+    <td>Mindful Activity</td><td id="actTotal"></td>
+    <td id="actPercent"></td>
+    </tr>
+    <tr>
+    <td>Combined</td><td id="combinedTotal"></td>
+    <td id="combinedPercent"></td>
+    </tr>
+    <tr>
+    <td>Days</td><td id="daysTotal"></td><td
+id="daysPercent"></td>
+    </tr>
+    </table>
+</script>
+
+<script id="meditationScreen" type="text/html">
+    <table>
+    <tr>
+        <td>Timer: </td>
+        <td>
+        <select>
+                <option value="1">1 minutes</option>
+                <option value="2">2 minutes</option>
+                <option value="3">3 minutes</option>
+                <option value="4">4 minutes</option>
+                <option value="5">5 minutes</option>
+                <option value="6">6 minutes</option>
+                <option value="7">7 minutes</option>
+                <option value="8">8 minutes</option>
+                <option value="9">9 minutes</option>
+                <option value="10">10 minutes</option>
+                <option selected="true" value="12">12 minutes </option>
+                <option value="14">14 minutes</option>
+                <option value="16">16 minutes</option>
+                <option value="18">18 minutes</option>
+                <option value="20">20 minutes</option>
+                <option value="22">22 minutes</option>
+                <option value="24">24 minutes</option>
+                <option value="26">26 minutes</option>
+                <option value="28">28 minutes</option>
+                <option value="30">30 minutes</option>
+                <option value="35">35 minutes</option>
+                <option value="40">40 minutes</option>
+                <option value="45">45 minutes</option>
+                <option value="50">50 minutes</option>
+                <option value="55">55 minutes</option>
+                <option value="60">1 hour</option>
+                <option value="70">1 hour 10 minutes</option>
+                <option value="80">1 hour 20 minutes</option>
+                <option value="90">1 hour 30 minutes</option>
+                <option value="100">1 hour 40 minutes</option>
+                <option value="110">1 hour 50 minutes</option>
+                <option value="120">2 hours</option>
+                <option value="135">2 hours 15 minutes</option>
+                <option value="150">2 hours 30 minutes</option>
+                <option value="165">2 hours 45 minutes</option>
+                <option value="180">3 hours</option>
+                <option value="200">3 hours 20 minutes</option>
+                <option value="220">3 hours 40 minutes</option>
+                <option value="240">4 hours</option>
+        </select>
+        </td>
+        </tr>
+        <tr>
+        <td>Brainwave: </td>
+        <td> <select>
+                <option value="alpha">Insight in Alpha</option>
+                <option value="theta">Absorb in Theta</option>
+                <option value="beta">Maintain in Beta</option>
+                <option value="gamma">Solve in Gamma</option>
+                <option value="delta">Heal in Delta</option>
+                <option value="sigma">Tranquil in Sigma</option>
+                <option selected="true" value="schuman">Resonate
+                    in Schuman</option>
+            </select>
+        </td>
+        </tr>
+        <tr><td>stopwatch:</td><td id="stopwatch">0:00</td></tr>
+        <tr>
+        <td colspan="2" align="center">
+        <button id="mediButton" type="button">begin</button>
+        </td>
+        </tr>
+    </table>
+</script>
+<script id="setupScreen" type="text/html">
+<div id="setupDiv">
+    <table>
+    <tr>
+        <td>Meditators Name: </td>
+        <td id="nameField">
+            <input type="text" name="name"></input>
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2">Goals</th>
+    </tr>
+    <tr>
+        <td>Sitting Meditation hours: </td>
+        <td id="sitField">
+            <input type="text" name="sitGoal"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Mindful Activity hours: </td>
+        <td id="actField">
+            <input type="text" name="actGoal"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Number of days: </td>
+        <td id="dayField">
+            <input type="text" name="dayGoal"></input>
+        </td>
+    </tr>
+    <tr>
+        <td id="acceptField" align="center" colspan="2">
+            <button type="button" id="accept"
+                >Accept</button>
+        </td>
+    </tr>
+    </table>
+</div>
+</script>
+<script id="logTemplate" type="text/html">
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;
+    charset=utf-8"/>
+    <title>QA Meditation Log</title>
+    <meta name="viewport" content="width=device-width, 
+        initial-scale=1" />
+    <link href="css/style.css" rel="stylesheet"/>
+    <link href="img/bell-32.png" rel="shortcut icon"/>
+</head>
+<body>
+<h2>QA Meditation Log v0.1</h2>
+<div id="summary">
+</div>
+<div id="entries">
+</div>
+</body>
+</html>
+</script>
+
+<script id="theEntry" type="text/html">
+<div class="entry">
+<table  summary="meditation log input form">
+    <tr><td colspan="4" id="comment"></td></tr>
+    <tr><td>type: </td><td id="mediField">
+    <select name="mediType">    
+        <option selected="true" value="sit">
+            Sitting Meditation</option>
+        <option value="act">Mindful Activity</option>
+    </select>
+    </td>
+    <td>date*: </td><td id="dateField">
+    <select name="dateSelect">
+        <option value="">*</option>
+        <option value="today">today</option>
+        <option value="yesterday">yesterday</option>
+        <option value="other">other</option>
+    </select>
+    </td>
+    </tr>
+    <tr>
+        <td>time-of-day:</td>
+        <td id="todField">
+            <select name="TOD">
+                <option value=""></option>
+                <option value="morning">morning 4am-10am</option>
+                <option value="evening">evening 4pm-10pm</option>
+                <option value="midday">mid-day 10am-4pm</option>
+                <option value="night">night 10pm-4am</option>
+            </select>
+        </td>
+        <td>place:</td> 
+        <td id="placeField"> <input type="text" name="place"/></td>
+    </tr>
+    <tr>
+        <td id="typeName">posture: </td>
+        <td id="postureField"> 
+            <input type="text" name="posture"/> 
+        </td>
+        <td>breath: </td>
+        <td id="breathField"> 
+            <input type="text" name="breath"/>
+        </td>
+    </tr>
+    <tr>
+        <td>eyes: </td>
+        <td id="eyesField"> 
+        <select name="eyes">
+            <option value=""></option>
+            <option value="closed">closed</option>
+            <option value="mostly closed">mostly closed</option>
+            <option value="half open">half open</option>
+            <option value="mostly open">mostly open</option>
+            <option value="open">open</option>
+        </select>
+        </td>
+        <td>focus: </td>
+        <td id="focusField">
+            <input type="text" name="focus"/>
+        </td>
+    </tr>
+    <tr>
+        <td>duration*:</td>
+        <td id="durationField"> 
+        <select name="duration">
+                <option value="1">1 minutes</option>
+                <option value="2">2 minutes</option>
+                <option value="3">3 minutes</option>
+                <option value="4">4 minutes</option>
+                <option value="5">5 minutes</option>
+                <option value="6">6 minutes</option>
+                <option value="7">7 minutes</option>
+                <option value="8">8 minutes</option>
+                <option value="9">9 minutes</option>
+                <option value="10">10 minutes</option>
+                <option selected="true" value="12">12 minutes </option>
+                <option value="14">14 minutes</option>
+                <option value="16">16 minutes</option>
+                <option value="18">18 minutes</option>
+                <option value="20">20 minutes</option>
+                <option value="22">22 minutes</option>
+                <option value="24">24 minutes</option>
+                <option value="26">26 minutes</option>
+                <option value="28">28 minutes</option>
+                <option value="30">30 minutes</option>
+                <option value="35">35 minutes</option>
+                <option value="40">40 minutes</option>
+                <option value="45">45 minutes</option>
+                <option value="50">50 minutes</option>
+                <option value="55">55 minutes</option>
+                <option value="60">1 hour</option>
+                <option value="70">1 hour 10 minutes</option>
+                <option value="80">1 hour 20 minutes</option>
+                <option value="90">1 hour 30 minutes</option>
+                <option value="100">1 hour 40 minutes</option>
+                <option value="110">1 hour 50 minutes</option>
+                <option value="120">2 hours</option>
+                <option value="135">2 hours 15 minutes</option>
+                <option value="150">2 hours 30 minutes</option>
+                <option value="165">2 hours 45 minutes</option>
+                <option value="180">3 hours</option>
+                <option value="200">3 hours 20 minutes</option>
+                <option value="220">3 hours 40 minutes</option>
+                <option value="240">4 hours</option>
+            </select>
+        </td>
+        <th>activity total: </th><td id="activ-total"></td>
+    </tr>
+    <tr>
+        <td colspan="4" id="notesField">notes*:<br/>
+            <textarea id="notes" rows="3" cols="56"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <!-- <th>day's total:</th><td id="day-total"></td> -->
+        <th>grand total:</th><td id="grand-total"></td>
+    </tr>
+    <tr>
+        <td id="recordField" align="center" colspan="4"><input type="submit" 
+            id="record" value="Record Entry"/> 
+        </td>
+    </tr>
+</table>
+</div>
+</script>
+
+<script src="js/index-0.1.js"></script>
+</body>
+</html>
