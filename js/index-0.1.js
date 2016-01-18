@@ -54,17 +54,19 @@ Array.prototype.expand = function (func) {
         i,
         val,
         res;
-    for (i = 0; i < length; i ++){
+    for (i = 0; i < length; i += 1) {
         if (i in this) {
             val = this[i];
             res = func.call(providedThis, val, i, this);
-            if (res !== null && res !== undefined)
+            if (res !== null && res !== undefined) {
                 result = result.concat(res);
+            }
         }
     }
     return result;
 };
-function findElementsOfEntries(queryString,length) {
+function findElementsOfEntries(queryString, length) {
+    "use strict";
     var entries = medLogObj.entryArray,
         divEl = document.createElement("div"),
         matches = [];
@@ -72,7 +74,7 @@ function findElementsOfEntries(queryString,length) {
         var result = false;
         divEl.innerHTML = entry;
         result = divEl.querySelectorAll(queryString);
-        if (result.length != length) {
+        if (result.length !== length) {
             result = undefined;
         }
         return result;
@@ -85,11 +87,11 @@ function updateTotal(record) {
     console.log("updating total");
     var durationEl = document.getElementsByName("duration")[0],
         duration = parseInt(durationEl.value, 10),
-        mediField = document.getElementById("mediField"),
+        //mediField = document.getElementById("mediField"),
         mediType = document.getElementsByName("mediType")[0],
         oldActivityTotal = 0,
         oldGrandTotal = 0,
-        oldDayTotal = 0,
+        //oldDayTotal = 0,
         newActivityTotal = 0,
         newGrandTotal = 0,
         activ_total = document.getElementById("activ-total"),
@@ -97,35 +99,44 @@ function updateTotal(record) {
         //day_total = document.getElementById("day-total"),
         entries = medLogObj.entryArray,
         divEl = document.createElement("div"),
-        lastEntry = entries[entries.length-1],
+        lastEntry = entries[entries.length - 1],
         //lastDate,
         mediFields;
-    if (lastEntry !== undefined){
+    if (lastEntry !== undefined) {
         divEl.innerHTML = lastEntry;
-        oldGrandTotal = parseInt(divEl.querySelector(
-            "#grand-total").dataset.value);
+        oldGrandTotal = parseInt(
+            divEl.querySelector("#grand-total").dataset.value,
+            10
+        );
         //lastDate = divEl.querySelector("#dateField").innerHTML;
         //if (lastDate === formatDate(Date.now()) {
         //}
         if (mediType.value === "sit") {
             mediFields = findElementsOfEntries(
-                "#mediField[data-value=sit], #activ-total", 2
+                "#mediField[data-value=sit], #activ-total",
+                2
             );
             if (mediFields.length > 0) {
-                oldActivityTotal = parseInt(mediFields[
-                    mediFields.length - 1][1].dataset.value);
+                oldActivityTotal = parseInt(
+                    mediFields[mediFields.length - 1][1].
+                        dataset.value,
+                    10
+                );
             }
-        }
-        else if (mediType.value === "act") {
+        } else if (mediType.value === "act") {
             mediFields = findElementsOfEntries(
-                "#mediField[data-value=act], #activ-total", 2
+                "#mediField[data-value=act], #activ-total",
+                2
             );
             if (mediFields.length > 0) {
-                oldActivityTotal = parseInt(mediFields[
-                    mediFields.length - 1][1].dataset.value);
+                oldActivityTotal = parseInt(
+                    mediFields[mediFields.length - 1][1].
+                        dataset.value,
+                    10
+                );
             }
         }
-    }     
+    }
     newActivityTotal = oldActivityTotal + duration;
     newGrandTotal = oldGrandTotal + duration;
     activ_total.innerHTML = minToMinHr(newActivityTotal);
@@ -134,12 +145,16 @@ function updateTotal(record) {
     grand_total.innerHTML = minToMinHr(newGrandTotal);
     grand_total.dataset.value = newGrandTotal;
     medLogObj.grandTotal = newGrandTotal;
-    if (record === true ) {
-    if (mediType.value === "sit") {
-        medLogObj.sitTotal = parseInt(String(newActivityTotal));
-    } else if (mediType.value === "act") {
-        medLogObj.actTotal = parseInt(String(newActivityTotal));
-    }
+    if (record === true) {
+        if (mediType.value === "sit") {
+            medLogObj.sitTotal = parseInt(
+                String(newActivityTotal),
+                10
+            );
+        } else if (mediType.value === "act") {
+            medLogObj.actTotal =
+                parseInt(String(newActivityTotal), 10);
+        }
     }
 }
 
@@ -206,6 +221,7 @@ function setDate() {
     }
 }
 function prettyType(mediType) {
+    "use strict";
     var result = mediType;
     if (mediType === "sit") {
         result = "Sitting Meditation";
@@ -267,6 +283,7 @@ function recordEntry() {
         localStorage.setItem("username",
             JSON.stringify(medLogObj));
     }
+    /*global initMainMenu*/
     initMainMenu();
 }
 function initMeditationLog() {
@@ -291,21 +308,23 @@ function initMeditationLog() {
     type_select.addEventListener("change", updateMediType);
     record_button.addEventListener("click", recordEntry);
 }
-function onlyUnique(value, index, self) { 
+function onlyUnique(value, index, self) {
+    "use strict";
     return self.indexOf(value) === index;
 }
 function countDays() {
+    "use strict";
     var dates = findElementsOfEntries("#dateField", 1),
-        dateValues = dates.map(function(dateEl) {
+        dateValues = dates.map(function (dateEl) {
             return dateEl[0].innerHTML;
         }),
         numberOfDays = 0;
     numberOfDays = dateValues.filter(onlyUnique).length;
     return numberOfDays;
-    
 }
 function makePercent(decimal) {
-    return Math.ceil(decimal*100) + "%";
+    "use strict";
+    return Math.ceil(decimal * 100) + "%";
 }
 function initStatScreen() {
     "use strict";
@@ -314,7 +333,7 @@ function initStatScreen() {
         sitGoal = medLogObj.sitGoal,
         actGoal = medLogObj.actGoal,
         dayGoal = medLogObj.dayGoal,
-        grandGoal = parseInt(actGoal) + parseInt(sitGoal),
+        grandGoal = parseInt(actGoal, 10) + parseInt(sitGoal, 10),
         sitTotal = medLogObj.sitTotal,
         actTotal = medLogObj.actTotal,
         grandTotal = medLogObj.grandTotal,
@@ -344,14 +363,18 @@ function initStatScreen() {
     dayTotal = countDays();
     daysTotalField.innerHTML = dayTotal;
     medLogObj.dayTotal = dayTotal;
-    sitPercentField.innerHTML = makePercent(sitTotal / (
-        sitGoal * 60));
-    actPercentField.innerHTML = makePercent(actTotal / (
-        actGoal * 60));
-    grandPercentField.innerHTML = makePercent(grandTotal / (
-        grandGoal * 60));
-    daysPercentField.innerHTML = makePercent(dayTotal / dayGoal
-        );
+    sitPercentField.innerHTML = makePercent(
+        sitTotal / (sitGoal * 60)
+    );
+    actPercentField.innerHTML = makePercent(
+        actTotal / (actGoal * 60)
+    );
+    grandPercentField.innerHTML = makePercent(
+        grandTotal / (grandGoal * 60)
+    );
+    daysPercentField.innerHTML = makePercent(
+        dayTotal / dayGoal
+    );
 }
 function downloadLog() {
     "use strict";
@@ -372,9 +395,10 @@ function downloadLog() {
         logTemplate.innerHTML);
 }
 function initRemovalScreen() {
+    "use strict";
     var content = document.getElementById("content"),
-        divEl = document.createElement("div"),
-        removal_button;
+        divEl = document.createElement("div");
+        //removal_button;
     /*display all entries in content*/
     medLogObj.entryArray.forEach(function (entry) {
         /*add remove buttons to end of entries*/
@@ -414,6 +438,7 @@ function initSetup() {
         sitGoal,
         actGoal,
         dayGoal,
+        acceptField,
         accept_button,
         nameField,
         sitField,
@@ -436,7 +461,7 @@ function initSetup() {
     sitGoal.value = medLogObj.sitGoal;
     actGoal.value = medLogObj.actGoal;
     dayGoal.value = medLogObj.dayGoal;
-    accept.addEventListener("click", function () {
+    accept_button.addEventListener("click", function () {
         medLogObj.username = name.value;
         medLogObj.sitGoal = sitGoal.value;
         medLogObj.actGoal = actGoal.value;
@@ -456,13 +481,13 @@ function initSetup() {
 }
 function checkStorage() {
     "use strict";
-    if (typeof (Storage) !== "undefined") {
+    if (Storage === "undefined") {
     // Code for localStorage/sessionStorage.
         storageAvailable = true;
     } else {
     // Sorry! No Web Storage support..
         storageAvailable = false;
-        alert("no local storage available, so you'll have to " +
+        comment("no local storage available, so you'll have to " +
             "download your logs before closing the tab");
     }
 }
