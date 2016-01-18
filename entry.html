@@ -6,89 +6,112 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="docs.css" rel="stylesheet" type="text/css" />
         <link href="entireframework.min.css" rel="stylesheet" type="text/css" />
-        <style type="text/css">
-            /* Min+ plugin*/
-            message {
-                display: block;
-                padding: 2em;
-                background: #def;
-                border-left: 5px solid #44e;
-            }
+        <link href="style.css" rel="stylesheet" type="text/css" />
+        <link href="entrystyle.css" rel="stylesheet" type="text/css" />
 
-            .warning {
-                border-color: #e44; 
-                background: #fdd;
-            }
-
-            .great {
-                border-color: #2d2;
-                background: #dfd;
-            }
-        </style>
         <title>QA Meditation App</title>
 
-    <body>
-        <nav class="nav" tabindex="-1" onclick="this.focus()">
+        <body>
+            <nav class="nav" tabindex="-1" onclick="this.focus()">
+                <div class="container">
+                    <a class="pagename current" href="entry.html">Add Entry</a>
+                    <a href="index.html">Setup</a>
+                    <a href="stats.html">Stats</a>
+                    <a href="log.html">Download Log</a>
+
+                </div>
+            </nav>
+
             <div class="container">
-                <a href="form.html">Setup</a>
-                <a class="pagename current" href="entry.html">Add Entry</a>
-                <a href="statshtml">Stats</a>
-                <a href="log.html">Download Log</a>
+                <form action="submit.html">
 
-            </div>
-        </nav>
-        
-        <div class="container">
-            <form action="submit.html">
+                        <span class="column"><!-- START COLUMN ONE -->
+                            <!-- TYPE OF MEDITATION -->
+                            <div class="row">
+                                <div class="col c3">
+                                    Type:
+                                </div>
+                                <div class="col c5" name="mediType">
+                                    <select>
+                                        <option>Sitting Meditation</option>
+                                        <option>Mindful Activity</option>
+                                    </select>
+                                </div>
+                            </div>
 
-            <div class="row">
-                <div class="col c3">
-                    Type:
-                </div>
-                <div class="col c3" name="mediType">
-                    <select>
-                        <option>Sitting Meditation</option>
-                        <option>Mindful Activity</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col c3">
-                    Time Of Day:
-                </div>
-                <div class="col c3">
-                    <select name="TOD">
-                        <option value="morning">Morning 4am-10am</option>
-                        <option value="evening">Evening 4pm-10pm</option>
-                        <option value="midday">Mid-day 10am-4pm</option>
-                        <option value="night">Night 10pm-4am</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col c3">
-                   Mindful Activity Hours:
-                </div>
-                <div class="col c3">
-                    <input type="text" placeholder="12">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col c3">
-                    Number of days:
-                </div>
-                <div class="col c3">
-                    <input type="text" placeholder="60">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col c6">
-                    <button class="btn btn-b btn-sm smooth" type="submit">Submit</button>
-                </div>
-            </div>
-        </div>
+                            <!-- TIME OF DAY -->
+                            <div class="row">
+                                <div class="col c3">
+                                    Time Of Day:
+                                </div>
+                                <div class="col c5">
+                                    <select name="TOD">
+                                        <option value="morning">Morning 4am-10am</option>
+                                        <option value="evening">Evening 4pm-10pm</option>
+                                        <option value="midday">Mid-day 10am-4pm</option>
+                                        <option value="night">Night 10pm-4am</option>
+                                    </select>
+                                </div>
+                            </div>
 
-    </body>
+                            <!-- POSTURE -->
+                            <div class="row">
+                                <div class="col c3">
+                                    Posture:
+                                </div>
+                                <div class="col c5">
+                                    <input name="posture" type="text" placeholder="Upright">
+                                </div>
+                            </div>
+
+                            <!-- EYES -->
+                            <div class="row">
+                                <div class="col c3">
+                                    Eyes:
+                                </div>
+                                <div class="col c5">
+                                    <select name="eyes">
+                                        <option value="closed">Closed</option>
+                                        <option value="mostly closed">Mostly Closed</option>
+                                        <option value="half open">Half Open</option>
+                                        <option value="mostly open">Mostly Open</option>
+                                        <option value="open">Open</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </span><!-- END COLUMN ONE -->
+
+                        <span class="column"><!-- START COLUMN TWO -->
+
+                            <!-- DATE -->
+                            <div class="row">
+                                <div class="col c3">
+                                    Date*: 
+                                </div>
+                                <div class="col c5">
+                                    <select name="dateSelect">
+                                        <option value="today">Today</option>
+                                        <option value="yesterday">Yesterday</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- DATE -->
+                            <div class="row">
+                                <div class="col c3">
+                                    Place:
+                                </div>
+                                <div class="col c5">
+                                    <input type="text" name="place"/>
+                                </div>
+                            </div>
+
+                        </span><!-- END COLUMN TWO -->
+
+                </form>
+            </div>
+        </body>
 </html>
 

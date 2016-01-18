@@ -6,87 +6,72 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="docs.css" rel="stylesheet" type="text/css" />
         <link href="entireframework.min.css" rel="stylesheet" type="text/css" />
-        <style type="text/css">
-            /* Min+ plugin*/
-            message {
-                display: block;
-                padding: 2em;
-                background: #def;
-                border-left: 5px solid #44e;
-            }
-
-            .warning {
-                border-color: #e44; 
-                background: #fdd;
-            }
-
-            .great {
-                border-color: #2d2;
-                background: #dfd;
-            }
-        </style>
+        <link href="indexstyle.css" rel="stylesheet" type="text/css" />
+        <link href="style.css" rel="stylesheet" type="text/css" />
         <title>QA Meditation App</title>
 
-    <body>
-        <nav class="nav" tabindex="-1" onclick="this.focus()">
-            <div class="container">
-                <a class="pagename current" href="form.html">Setup</a>
-                <a href="entry.html">Add Entry</a>
-                <a href="statshtml">Stats</a>
-                <a href="log.html">Download Log</a>
+        <body>
+            <nav class="nav" tabindex="-1" onclick="this.focus()">
+                <div class="container">
+                    <a class="pagename current" href="index.html">Setup</a>
+                    <a href="entry.html">Add Entry</a>
+                    <a href="stats.html">Stats</a>
+                    <a href="log.html">Download Log</a>
 
-            </div>
-        </nav>
-        
-        <div class="container">
-            <p>
+                </div>
+            </nav>
+
+            <div class="container">
+                <p>
                 <div class="messages">
                     <message class="great">
-                        <strong>Welcome!</strong>
-                        Please enter your details before adding an entry.
+                    <strong>Welcome!</strong>
+                    Please enter your details before adding an entry.
                     </message>
                 </div>
-            </p>
-            <form action="submit.html">
-            <div class="row">
-                <div class="col c3">
-                    Meditator's Name:
-                </div>
-                <div class="col c3">
-                    <input type="text" autofocus placeholder="First Last">
-                </div>
+                </p>
+                <form action="submit.html">
+                    <div class="form">
+                        <div> 
+                            <span class="column">
+                                Meditator's Name:
+                            </span>
+                            <span class="column">
+                                <input name="name"  class="smooth" type="text" autofocus placeholder="First Last">
+                            </span>
+                        </div>
+                        <div >
+                            <span class="column">
+                                Sitting Meditation Hours:
+                            </span>
+                            <span class="column">
+                                <input name="sitGoal" class="smooth" type="text" placeholder="12">
+                            </span>
+                        </div>
+                        <div >
+                            <span class="column">
+                                Mindful Activity Hours:
+                            </span>
+                            <span class="column">
+                                <input name="actGoal" class="smooth" type="text" placeholder="12">
+                            </span>
+                        </div>
+                        <div >
+                            <span class="column">
+                                Number of days:
+                            </span>
+                            <span class="column">
+                                <input name="dayGoal" class="smooth" type="text" placeholder="60">
+                            </span>
+                        </div>
+                        <div >
+                            <span class="col c6">
+                                <button class="btn btn-b btn-sm smooth" type="submit">Submit</button>
+                            </span>
+                        </div>
+                    </div>
             </div>
-            <div class="row">
-                <div class="col c3">
-                   Sitting Meditation Hours:
-                </div>
-                <div class="col c3">
-                    <input type="text" placeholder="12">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col c3">
-                   Mindful Activity Hours:
-                </div>
-                <div class="col c3">
-                    <input type="text" placeholder="12">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col c3">
-                    Number of days:
-                </div>
-                <div class="col c3">
-                    <input type="text" placeholder="60">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col c6">
-                    <button class="btn btn-b btn-sm smooth" type="submit">Submit</button>
-                </div>
-            </div>
-        </div>
 
-    </body>
+        </body>
 </html>
 
