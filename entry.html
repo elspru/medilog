@@ -30,8 +30,8 @@
     <body>
         <nav class="nav" tabindex="-1" onclick="this.focus()">
             <div class="container">
-                <a class="pagename current" href="form.html">Setup</a>
-                <a href="entry.html">Add Entry</a>
+                <a href="form.html">Setup</a>
+                <a class="pagename current" href="entry.html">Add Entry</a>
                 <a href="statshtml">Stats</a>
                 <a href="log.html">Download Log</a>
 
@@ -39,29 +39,31 @@
         </nav>
         
         <div class="container">
-            <p>
-                <div class="messages">
-                    <message class="great">
-                        <strong>Welcome!</strong>
-                        Please enter your details before adding an entry.
-                    </message>
-                </div>
-            </p>
             <form action="submit.html">
+
             <div class="row">
                 <div class="col c3">
-                    Meditator's Name:
+                    Type:
                 </div>
-                <div class="col c3">
-                    <input type="text" autofocus placeholder="First Last">
+                <div class="col c3" name="mediType">
+                    <select>
+                        <option>Sitting Meditation</option>
+                        <option>Mindful Activity</option>
+                    </select>
                 </div>
             </div>
+            
             <div class="row">
                 <div class="col c3">
-                   Sitting Meditation Hours:
+                    Time Of Day:
                 </div>
                 <div class="col c3">
-                    <input type="text" placeholder="12">
+                    <select name="TOD">
+                        <option value="morning">Morning 4am-10am</option>
+                        <option value="evening">Evening 4pm-10pm</option>
+                        <option value="midday">Mid-day 10am-4pm</option>
+                        <option value="night">Night 10pm-4am</option>
+                    </select>
                 </div>
             </div>
             <div class="row">
