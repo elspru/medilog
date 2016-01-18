@@ -14,8 +14,8 @@
         <body>
             <nav class="nav" tabindex="-1" onclick="this.focus()">
                 <div class="container">
-                    <a class="pagename current" href="entry.html">Add Entry</a>
-                    <a href="index.html">Setup</a>
+                    <a class="pagename" href="index.html">Medilog</a>
+                    <a class="current" href="entry.html">Add Entry</a>
                     <a href="stats.html">Stats</a>
                     <a href="log.html">Download Log</a>
 
@@ -23,53 +23,61 @@
             </nav>
 
             <div class="container">
+                <p>
+                <div class="messages">
+                    <message class="great">
+                    Please enter the details of your meditation session.<br>
+                    Fields marked with a * are mandatory.
+                    </message>
+                </div>
+                </p>
                 <form action="submit.html">
-
+                    <div >
                         <span class="column"><!-- START COLUMN ONE -->
                             <!-- TYPE OF MEDITATION -->
-                            <div class="row">
-                                <div class="col c3">
+                            <div> 
+                                <span class="column sub"> 
                                     Type:
-                                </div>
-                                <div class="col c5" name="mediType">
-                                    <select>
+                                </span>
+                                <span class="column sub">
+                                    <select name="mediType">
                                         <option>Sitting Meditation</option>
                                         <option>Mindful Activity</option>
                                     </select>
-                                </div>
+                                </span>
                             </div>
 
                             <!-- TIME OF DAY -->
-                            <div class="row">
-                                <div class="col c3">
+                            <div >
+                                <span class="column sub">
                                     Time Of Day:
-                                </div>
-                                <div class="col c5">
+                                </span>
+                                <span class="column sub">
                                     <select name="TOD">
                                         <option value="morning">Morning 4am-10am</option>
                                         <option value="evening">Evening 4pm-10pm</option>
                                         <option value="midday">Mid-day 10am-4pm</option>
                                         <option value="night">Night 10pm-4am</option>
                                     </select>
-                                </div>
+                                </span>
                             </div>
 
                             <!-- POSTURE -->
-                            <div class="row">
-                                <div class="col c3">
+                            <div >
+                                <span class="column sub">
                                     Posture:
-                                </div>
-                                <div class="col c5">
+                                </span>
+                                <span class="column sub">
                                     <input name="posture" type="text" placeholder="Upright">
-                                </div>
+                                </span>
                             </div>
 
                             <!-- EYES -->
-                            <div class="row">
-                                <div class="col c3">
+                            <div >
+                                <span class="column sub">
                                     Eyes:
-                                </div>
-                                <div class="col c5">
+                                </span>
+                                <span class="column sub">
                                     <select name="eyes">
                                         <option value="closed">Closed</option>
                                         <option value="mostly closed">Mostly Closed</option>
@@ -77,38 +85,125 @@
                                         <option value="mostly open">Mostly Open</option>
                                         <option value="open">Open</option>
                                     </select>
-                                </div>
+                                </span>
                             </div>
 
+                            <!-- DURATION -->
+                            <div >
+                                <span class="column sub">
+                                    Duration:
+                                </span>
+                                <span class="column sub">
+                                    <select name="duration">
+                                            <option value="1">1 minutes</option>
+                                            <option value="2">2 minutes</option>
+                                            <option value="3">3 minutes</option>
+                                            <option value="4">4 minutes</option>
+                                            <option value="5">5 minutes</option>
+                                            <option value="6">6 minutes</option>
+                                            <option value="7">7 minutes</option>
+                                            <option value="8">8 minutes</option>
+                                            <option value="9">9 minutes</option>
+                                            <option value="10">10 minutes</option>
+                                            <option selected="true" value="12">12 minutes </option>
+                                            <option value="14">14 minutes</option>
+                                            <option value="16">16 minutes</option>
+                                            <option value="18">18 minutes</option>
+                                            <option value="20">20 minutes</option>
+                                            <option value="22">22 minutes</option>
+                                            <option value="24">24 minutes</option>
+                                            <option value="26">26 minutes</option>
+                                            <option value="28">28 minutes</option>
+                                            <option value="30">30 minutes</option>
+                                            <option value="35">35 minutes</option>
+                                            <option value="40">40 minutes</option>
+                                            <option value="45">45 minutes</option>
+                                            <option value="50">50 minutes</option>
+                                            <option value="55">55 minutes</option>
+                                            <option value="60">1 hour</option>
+                                            <option value="70">1 hour 10 minutes</option>
+                                            <option value="80">1 hour 20 minutes</option>
+                                            <option value="90">1 hour 30 minutes</option>
+                                            <option value="100">1 hour 40 minutes</option>
+                                            <option value="110">1 hour 50 minutes</option>
+                                            <option value="120">2 hours</option>
+                                            <option value="135">2 hours 15 minutes</option>
+                                            <option value="150">2 hours 30 minutes</option>
+                                            <option value="165">2 hours 45 minutes</option>
+                                            <option value="180">3 hours</option>
+                                            <option value="200">3 hours 20 minutes</option>
+                                            <option value="220">3 hours 40 minutes</option>
+                                            <option value="240">4 hours</option>
+                                        </select>
+                                </span>
+                            </div>
                         </span><!-- END COLUMN ONE -->
 
                         <span class="column"><!-- START COLUMN TWO -->
 
                             <!-- DATE -->
-                            <div class="row">
-                                <div class="col c3">
+                            <div >
+                                <span class="column sub">
                                     Date*: 
-                                </div>
-                                <div class="col c5">
+                                </span>
+                                <span class="column sub">
                                     <select name="dateSelect">
                                         <option value="today">Today</option>
                                         <option value="yesterday">Yesterday</option>
                                         <option value="other">Other</option>
                                     </select>
-                                </div>
+                                </span>
                             </div>
 
-                            <!-- DATE -->
-                            <div class="row">
-                                <div class="col c3">
+                            <!-- PLACE -->
+                            <div >
+                                <span class="column sub">
                                     Place:
-                                </div>
-                                <div class="col c5">
-                                    <input type="text" name="place"/>
-                                </div>
+                                </span>
+                                <span class="column sub">
+                                    <input type="text" name="place" placeholder="Kelso Beach"/>
+                                </span>
                             </div>
 
+                            <!-- BREATH-->
+                            <div >
+                                <span class="column sub">
+                                    Breath:
+                                </span>
+                                <span class="column sub">
+                                    <input type="text" name="breath" placeholder="Calm"/>
+                                </span>
+                            </div>
+
+                            <!-- FOCUS -->
+                            <div >
+                                <span class="column sub">
+                                    Focus:
+                                </span>
+                                <span class="column sub">
+                                    <input type="text" name="focus" placeholder=""/>
+                                </span>
+                            </div>
+
+                            <!-- ACTIVITY TOTAL -->
+                            <div >
+                                <span class="column sub">
+                                    Activity total:
+                                </span>
+                                <div class="column sub"> 
+                                    <var id="activ-total"></var>
+                                </span>
+                            </div>
                         </span><!-- END COLUMN TWO -->
+                        <div>
+                        <p class="column">
+                            Notes*:
+                            <br>
+                            <input type="textarea" cols="3" size="50" class="smooth">                        
+                        <button class="btn btn-b btn-sm smooth" type="submit">Record Entry</button>
+                        </p>
+                        </div>
+                    </div>
 
                 </form>
             </div>

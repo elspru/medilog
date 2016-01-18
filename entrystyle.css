@@ -1,10 +1,10 @@
-/* Min+ plugin*/
 .column{
     float: left;
-    width: 50%;
-    min-width: 416;
-    max-width: 300px;
+    width: 40%;
+    min-width: 380px;
 }
-.form{
-    max-width: 500px;
+.column .sub{
+    min-width: initial;
+    max-width: initial;
+    padding: 1px;
 }
