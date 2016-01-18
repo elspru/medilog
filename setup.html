@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="docs.css" rel="stylesheet" type="text/css" />
+        <link href="entireframework.min.css" rel="stylesheet" type="text/css" />
+        <style type="text/css">
+            /* Min+ plugin*/
+            message {
+                display: block;
+                padding: 2em;
+                background: #def;
+                border-left: 5px solid #44e;
+            }
+
+            .warning {
+                border-color: #e44; 
+                background: #fdd;
+            }
+
+            .great {
+                border-color: #2d2;
+                background: #dfd;
+            }
+        </style>
+        <title>QA Meditation App</title>
+
+    <body>
+        <nav class="nav" tabindex="-1" onclick="this.focus()">
+            <div class="container">
+                <a class="pagename current" href="form.html">Setup</a>
+                <a href="menu.html">Menu</a>
+            </div>
+        </nav>
+        
+        <div class="container">
+            <p>
+                <div class="messages">
+                    <message class="great">
+                        <strong>Welcome!</strong>
+                        Please enter your details to begin logging.
+                    </message>
+                </div>
+            </p>
+            <form action="submit.html">
+            <div class="row">
+                <div class="col c3">
+                    Meditator's Name:
+                </div>
+                <div class="col c3">
+                    <input type="text" autofocus placeholder="First Last">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col c3">
+                   Sitting Meditation Hours:
+                </div>
+                <div class="col c3">
+                    <input type="text" placeholder="12">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col c3">
+                   Mindful Activity Hours:
+                </div>
+                <div class="col c3">
+                    <input type="text" placeholder="12">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col c3">
+                    Number of days:
+                </div>
+                <div class="col c3">
+                    <input type="text" placeholder="60">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col c3">
+                    <button class="btn btn-b btn-sm smooth" type="submit">Submit</button>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
+

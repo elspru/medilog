@@ -1,5 +1,0 @@
-th, td {
-    color: black;
-}
-tr:nth-child(even) {background-color: #DFFF00}
-tr:nth-child(odd){background-color: #4CC417}
