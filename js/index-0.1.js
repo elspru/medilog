@@ -481,7 +481,7 @@ function initSetup() {
 }
 function checkStorage() {
     "use strict";
-    if (Storage === "undefined") {
+    if (typeof (Storage) !== "undefined") {
     // Code for localStorage/sessionStorage.
         storageAvailable = true;
     } else {
