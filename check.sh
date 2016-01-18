@@ -1,6 +1,6 @@
 #!/bin/bash
 JSFILES="js/*js"
-HTMLFILES="index.html mediapp.html"
+HTMLFILES="index.html"
 xmllint $HTMLFILES
 jshint $JSFILES
 jslint $JSFILES
