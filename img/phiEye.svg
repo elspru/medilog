@@ -1,0 +1,8 @@
+<svg height="32" width="32">
+<circle cx="16" cy="16" r="18" stroke="white" fill="white"/>
+<circle cx="16" cy="16" r="11" stroke="violet" fill="blue"/>
+<circle cx="16" cy="16" r="7" stroke="cyan" fill="green"/>
+<circle cx="16" cy="16" r="4" stroke="yellow" fill="yellow"/>
+<circle cx="16" cy="16" r="3" stroke="orange" fill="red"/>
+<circle cx="16" cy="16" r="1" stroke="black" fill="black"/>
+</svg>

@@ -5,24 +5,66 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;
     charset=utf-8"/>
+<link rel="stylesheet"
+href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script
+src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script
+src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
     <title>QA Meditation Log</title>
     <meta name="viewport" content="width=device-width, 
         initial-scale=1" />
     <link href="css/style-0.1.css" rel="stylesheet"/>
-    <link href="img/bell-32.png" rel="shortcut icon"/>
+    <link href="img/phiEye-32bw.png" rel="shortcut icon"/>
 </head>
 <body>
-<div class="background">
+<div class="container">
     <!--<audio id="bell" src="sounds/bell.mp3"
 preload="auto">
     </audio>-->
-    <div id="comment"></div>
-    <div id="menuBar">
-    <button id="setup" type="button"
-        >Setup</button>
-    <button id="menu"
-        type="button">Menu</button>
+    <div class="row" id="comment">
     </div>
+    <nav class="navbar navbar-default" id="menuBar">
+    <!--<ul class="nav navbar-nav" >
+    <li><a id="setup" href="#">⚙ Setup</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+    <li><a id="menu" href="#">≡ Menu</a></li>
+    </ul>-->
+    <div id="menuBar" class="btn-group">
+    <div class="btn-group">
+    <button class="btn btn-default" id="setup" type="button">
+        ⚙ Setup</button>
+    </div>
+    <div class="btn-group"> 
+    <button class="btn btn-default" id="menu" 
+        type="button"> ≡ Menu </button>
+    <button class="btn btn-default dropdown-toggle" id="menu" 
+        type="button" data-toggle="dropdown">
+    <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        <!--<li><button id="meditate" type="button">Meditate
+        </button></li>-->
+        <li><button id="DaddEntry" type="button" 
+            class="btn btn-default btn-block">Add Entry</button>
+        </li>
+        <!--<li><button id="delEntry" type="button">Remove Entry
+        </button></li>-->
+        <li><button id="Dstats" type="button"
+            class="btn btn-default btn-block">View Stats</button>
+        </li>
+        <li><button id="Ddownload" type="button"
+            class="btn btn-default btn-block">Download Log</button>
+        </li>
+    </ul>
+    </div>
+    </div> 
+    </nav>
     <div id="content">
     </div>
 </div>
@@ -35,22 +77,25 @@ preload="auto">
     </ul>
 </script>
 <script id="mainMenu" type="text/html">
-    <ul>
+    <ul role="menu">
         <!--<li><button id="meditate" type="button">Meditate
         </button></li>-->
-        <li><button id="addEntry" type="button">Add Entry
-        </button></li>
+        <li><button id="addEntry" type="button" 
+            class="btn btn-default btn-block">Add Entry</button>
+        </li>
         <!--<li><button id="delEntry" type="button">Remove Entry
         </button></li>-->
-        <li><button id="stats" type="button">View Stats
-        </button></li>
-        <li><button id="download" type="button">Download Log
-        </button></li>
+        <li><button id="stats" type="button"
+            class="btn btn-default btn-block">View Stats</button>
+        </li>
+        <li><button id="download" type="button"
+            class="btn btn-default btn-block">Download Log</button>
+        </li>
     </ul>
 </script>
 
 <script id="statScreen" type="text/html">
-    <table>
+    <table class="table">
     <tr>
     <th>Type</th><th>Completed</th><th>Achieved</th>
     </tr>
@@ -78,7 +123,7 @@ id="daysPercent"></td>
     <tr>
         <td>Timer: </td>
         <td>
-        <select>
+        <select class="form-control">
                 <option value="1">1 minutes</option>
                 <option value="2">2 minutes</option>
                 <option value="3">3 minutes</option>
@@ -144,39 +189,39 @@ id="daysPercent"></td>
     </table>
 </script>
 <script id="setupScreen" type="text/html">
-<div id="setupDiv">
-    <table>
+<div id="setupDiv" class="table-responsibe">
+    <table class="table">
     <tr>
         <td>Meditators Name: </td>
         <td id="nameField">
-            <input type="text" name="name"></input>
+            <input class="form-control" type="text" name="name"></input>
         </td>
     </tr>
     <tr>
-        <th colspan="2">Goals</th>
+        <th><center>Goals</center></th></th></th>
     </tr>
     <tr>
         <td>Sitting Meditation hours: </td>
         <td id="sitField">
-            <input type="text" name="sitGoal"/>
+            <input class="form-control" type="text" name="sitGoal"/>
         </td>
     </tr>
     <tr>
         <td>Mindful Activity hours: </td>
         <td id="actField">
-            <input type="text" name="actGoal"/>
+            <input class="form-control" type="text" name="actGoal"/>
         </td>
     </tr>
     <tr>
         <td>Number of days: </td>
         <td id="dayField">
-            <input type="text" name="dayGoal"></input>
+            <input class="form-control" type="text" name="dayGoal"></input>
         </td>
     </tr>
     <tr>
         <td id="acceptField" align="center" colspan="2">
-            <button type="button" id="accept"
-                >Accept</button>
+            <button class="btn btn-success btn-block" type="button" 
+                id="accept">Accept</button>
         </td>
     </tr>
     </table>
@@ -204,17 +249,17 @@ id="daysPercent"></td>
 </script>
 
 <script id="theEntry" type="text/html">
-<div class="entry">
-<table  summary="meditation log input form">
+<div class="entry" class="table-responsive">
+<table  class="table" summary="meditation log input form">
     <tr><td>type: </td><td id="mediField">
-    <select name="mediType">    
+    <select class="form-control" name="mediType">    
         <option selected="true" value="sit">
             Sitting Meditation</option>
         <option value="act">Mindful Activity</option>
     </select>
     </td>
     <td>date*: </td><td id="dateField">
-    <select name="dateSelect">
+    <select class="form-control" name="dateSelect">
         <option value="">*</option>
         <option value="today">today</option>
         <option value="yesterday">yesterday</option>
@@ -225,7 +270,7 @@ id="daysPercent"></td>
     <tr>
         <td>time-of-day:</td>
         <td id="todField">
-            <select name="TOD">
+            <select class="form-control" name="TOD">
                 <option value=""></option>
                 <option value="morning">morning 4am-10am</option>
                 <option value="evening">evening 4pm-10pm</option>
@@ -234,22 +279,25 @@ id="daysPercent"></td>
             </select>
         </td>
         <td>place:</td> 
-        <td id="placeField"> <input type="text" name="place"/></td>
+        <td id="placeField"> <input class="form-control" 
+            type="text" name="place"/></td>
     </tr>
     <tr>
         <td id="typeName">posture: </td>
         <td id="postureField"> 
-            <input type="text" name="posture"/> 
+            <input class="form-control" type="text" 
+                name="posture"/> 
         </td>
         <td>breath: </td>
         <td id="breathField"> 
-            <input type="text" name="breath"/>
+            <input class="form-control" type="text" 
+                name="breath"/>
         </td>
     </tr>
     <tr>
         <td>eyes: </td>
         <td id="eyesField"> 
-        <select name="eyes">
+        <select class="form-control" name="eyes">
             <option value=""></option>
             <option value="closed">closed</option>
             <option value="mostly closed">mostly closed</option>
@@ -260,13 +308,13 @@ id="daysPercent"></td>
         </td>
         <td>focus: </td>
         <td id="focusField">
-            <input type="text" name="focus"/>
+            <input class="form-control" type="text" name="focus"/>
         </td>
     </tr>
     <tr>
         <td>duration*:</td>
         <td id="durationField"> 
-        <select name="duration">
+        <select class="form-control" name="duration">
                 <option value="1">1 minutes</option>
                 <option value="2">2 minutes</option>
                 <option value="3">3 minutes</option>
@@ -312,16 +360,20 @@ id="daysPercent"></td>
     </tr>
     <tr>
         <td colspan="4" id="notesField">notes*:<br/>
-            <textarea id="notes" rows="3" cols="56"></textarea>
+            <textarea id="notes" rows="3" 
+                cols="56"></textarea>
         </td>
     </tr>
     <tr>
         <!-- <th>day's total:</th><td id="day-total"></td> -->
+        <th colspan=2></th>
         <th>grand total:</th><td id="grand-total"></td>
     </tr>
     <tr>
-        <td id="recordField" align="center" colspan="4"><input type="submit" 
-            id="record" value="Record Entry"/> 
+        <td id="recordField" align="center" colspan="4">
+        <input type="submit" id="record" 
+            class="btn btn-success btn-block"
+            value="Record Entry"/> 
         </td>
     </tr>
 </table>

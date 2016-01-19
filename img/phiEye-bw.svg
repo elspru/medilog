@@ -1,0 +1,8 @@
+<svg height="32" width="32">
+<ellipse cx="16" cy="16" ry="11" rx="16" stroke="black" fill="white"/>
+<ellipse cx="16" cy="16" ry="11" rx="11" stroke="black"  fill="white"/>
+<ellipse cx="16" cy="16" ry="7" rx="7" stroke="black"  fill="white"/>
+<ellipse cx="16" cy="16" ry="4" rx="4" stroke="black"  fill="white"/>
+<ellipse cx="16" cy="16" ry="3" rx="3" stroke="black"  fill="white"/>
+<ellipse cx="16" cy="16" ry="1" rx="1" stroke="black" />
+</svg>

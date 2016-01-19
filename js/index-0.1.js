@@ -258,7 +258,8 @@ function recordEntry() {
     /* check all required areas are filled in */
     if (dateField.getElementsByTagName("select")[0] !==
             undefined || notes.value === "") {
-        comment("Please fill in mandatory fields marked by *");
+        comment('<div class="alert alert-danger">Please fill in' +
+            " mandatory fields marked by *</div>");
         return -1;
     }
     updateTotal(true);
@@ -496,6 +497,9 @@ function init() {
     checkStorage();
     var menu_button = document.getElementById("menu"),
         setup_button = document.getElementById("setup"),
+        addEntry_button = document.getElementById("DaddEntry"),
+        stats_button    = document.getElementById("Dstats"),
+        download_button = document.getElementById("Ddownload"),
         storedMedLogObj;
     if (storageAvailable) {
         storedMedLogObj = localStorage.getItem("username");
@@ -505,6 +509,9 @@ function init() {
     }
     menu_button.addEventListener("click", initMainMenu);
     setup_button.addEventListener("click", initSetup);
+    addEntry_button.addEventListener("click", initMeditationLog);
+    stats_button.addEventListener("click", initStatScreen);
+    download_button.addEventListener("click", downloadLog);
     initSetup();
 }
 
