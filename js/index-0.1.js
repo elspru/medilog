@@ -285,7 +285,7 @@ function recordEntry() {
             JSON.stringify(medLogObj));
     }
     /*global initMainMenu*/
-    initMainMenu();
+    initStatScreen();
 }
 function initMeditationLog() {
     "use strict";
