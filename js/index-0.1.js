@@ -257,7 +257,8 @@ function recordEntry() {
         entry = document.getElementsByClassName("entry")[0];
     /* check all required areas are filled in */
     if (dateField.getElementsByTagName("select")[0] !==
-            undefined || notes.value === "") {
+            undefined || notes.value === "" ||
+            mediType.value === "") {
         comment('<div class="alert alert-danger">Please fill in' +
             " mandatory fields marked by *</div>");
         return -1;
@@ -377,6 +378,22 @@ function initStatScreen() {
         dayTotal / dayGoal
     );
 }
+function initViewLog() {
+    "use strict";
+    var logTemplate = document.getElementById("logTemplate"),
+        summaryArea,
+        //name,
+        entries;
+    setContent(logTemplate.innerHTML);
+    //name = document.getElementById("name"),
+    summaryArea = document.getElementById("summary");
+    entries = document.getElementById("entries");
+    //name.innerHTML = medLogObj.username;
+    summaryArea.innerHTML = medLogObj.setupInfo;
+    medLogObj.entryArray.forEach(function (entry) {
+        entries.innerHTML += entry;
+    });
+}
 function downloadLog() {
     "use strict";
     var logTemplate = document.getElementById("logTemplate"),
@@ -418,17 +435,20 @@ function initMainMenu() {
         addEntry_button,
         //delEntry_button,
         stats_button,
+        viewLog_button,
         download_button;
     setContent(mainMenu_screen.innerHTML);
     //meditate_button = document.getElementById("meditate");
     addEntry_button = document.getElementById("addEntry");
     //delEntry_button = document.getElementById("delEntry");
     stats_button    = document.getElementById("stats");
+    download_button = document.getElementById("viewLog");
     download_button = document.getElementById("download");
     //meditate_button.addEventListener("click", initMeditationScreen);
     addEntry_button.addEventListener("click", initMeditationLog);
     //delEntry_button.addEventListener("click", initRemovalScreen);
     stats_button.addEventListener("click", initStatScreen);
+    viewLog_button.addEventListener("click", initViewLog);
     download_button.addEventListener("click", downloadLog);
 }
 function initSetup() {
@@ -499,6 +519,7 @@ function init() {
         setup_button = document.getElementById("setup"),
         addEntry_button = document.getElementById("DaddEntry"),
         stats_button    = document.getElementById("Dstats"),
+        viewLog_button = document.getElementById("DviewLog"),
         download_button = document.getElementById("Ddownload"),
         storedMedLogObj;
     if (storageAvailable) {
@@ -511,6 +532,7 @@ function init() {
     setup_button.addEventListener("click", initSetup);
     addEntry_button.addEventListener("click", initMeditationLog);
     stats_button.addEventListener("click", initStatScreen);
+    viewLog_button.addEventListener("click", initViewLog);
     download_button.addEventListener("click", downloadLog);
     initSetup();
 }

@@ -58,6 +58,9 @@ preload="auto">
         <li><button id="Dstats" type="button"
             class="btn btn-default btn-block">View Stats</button>
         </li>
+        <li><button id="DviewLog" type="button"
+            class="btn btn-default btn-block">View Log</button>
+        </li>
         <li><button id="Ddownload" type="button"
             class="btn btn-default btn-block">Download Log</button>
         </li>
@@ -87,6 +90,9 @@ preload="auto">
         </button></li>-->
         <li><button id="stats" type="button"
             class="btn btn-default btn-block">View Stats</button>
+        </li>
+        <li><button id="viewLog" type="button"
+            class="btn btn-default btn-block">View Log</button>
         </li>
         <li><button id="download" type="button"
             class="btn btn-default btn-block">Download Log</button>
@@ -251,10 +257,10 @@ id="daysPercent"></td>
 <script id="theEntry" type="text/html">
 <div class="entry" class="table-responsive">
 <table  class="table" summary="meditation log input form">
-    <tr><td>type: </td><td id="mediField">
+    <tr><td>type*: </td><td id="mediField">
     <select class="form-control" name="mediType">    
-        <option selected="true" value="sit">
-            Sitting Meditation</option>
+        <option selected="true" value=""></option>
+        <option value="sit">Sitting Meditation</option>
         <option value="act">Mindful Activity</option>
     </select>
     </td>
