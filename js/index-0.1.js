@@ -1,12 +1,26 @@
 console.log("initializing script");
 var medLogObj = {},
-    storageAvailable = false;
+    storageAvailable = false,
+    Entry = function () {
+        "use strict";
+        this.type = "";
+        this.date = new Date();
+        this.tod = "";
+        this.place = "";
+        this.posture = "";
+        this.breath = "";
+        this.eyes = "";
+        this.focus  = "";
+        this.duration = 0;
+        this.notes = "";
+    };
 medLogObj.entryArray = [];
 medLogObj.username = "First Last";
-medLogObj.sitGoal = 12;
-medLogObj.actGoal = 12;
-medLogObj.dayGoal = 60;
+medLogObj.sitGoal = 4;
+medLogObj.actGoal = 4;
+medLogObj.dayGoal = 20;
 medLogObj.setupInfo = "";
+medLogObj.statInfo = "";
 medLogObj.grandTotal = 0;
 medLogObj.sitTotal = 0;
 medLogObj.actTotal = 0;
@@ -55,7 +69,7 @@ Array.prototype.expand = function (func) {
         val,
         res;
     for (i = 0; i < length; i += 1) {
-        if (i in this) {
+        if (this.hasOwnProperty(i)) {
             val = this[i];
             res = func.call(providedThis, val, i, this);
             if (res !== null && res !== undefined) {
@@ -157,7 +171,6 @@ function updateTotal(record) {
         }
     }
 }
-
 function setContent(html) {
     "use strict";
     /*jslint browser: true*/
@@ -230,6 +243,76 @@ function prettyType(mediType) {
     }
     return result;
 }
+function onlyUnique(value, index, self) {
+    "use strict";
+    return self.indexOf(value) === index;
+}
+function countDays() {
+    "use strict";
+    var dates = findElementsOfEntries("#dateField", 1),
+        dateValues = dates.map(function (dateEl) {
+            return dateEl[0].innerHTML;
+        }),
+        numberOfDays = 0;
+    numberOfDays = dateValues.filter(onlyUnique).length;
+    return numberOfDays;
+}
+function makePercent(decimal) {
+    "use strict";
+    return Math.ceil(decimal * 100) + "%";
+}
+function initStatScreen() {
+    "use strict";
+    /*jslint browser: true*/
+    var stat_screen = document.getElementById("statScreen"),
+        sitGoal = medLogObj.sitGoal,
+        actGoal = medLogObj.actGoal,
+        dayGoal = medLogObj.dayGoal,
+        grandGoal = parseInt(actGoal, 10) + parseInt(sitGoal, 10),
+        sitTotal = medLogObj.sitTotal,
+        actTotal = medLogObj.actTotal,
+        grandTotal = medLogObj.grandTotal,
+        dayTotal = medLogObj.dayTotal,
+        content = document.getElementById("content"),
+        sitTotalField,
+        sitPercentField,
+        actTotalField,
+        actPercentField,
+        grandTotalField,
+        grandPercentField,
+        daysTotalField,
+        daysPercentField;
+    setContent(stat_screen.innerHTML);
+    /* load fields */
+    sitTotalField = document.getElementById("sitTotal");
+    actTotalField = document.getElementById("actTotal");
+    grandTotalField = document.getElementById("combinedTotal");
+    daysTotalField = document.getElementById("daysTotal");
+    sitPercentField = document.getElementById("sitPercent");
+    actPercentField = document.getElementById("actPercent");
+    grandPercentField = document.getElementById("combinedPercent");
+    daysPercentField = document.getElementById("daysPercent");
+    /* set fields */
+    sitTotalField.innerHTML = minToMinHr(sitTotal);
+    actTotalField.innerHTML = minToMinHr(actTotal);
+    grandTotalField.innerHTML = minToMinHr(grandTotal);
+    dayTotal = countDays();
+    daysTotalField.innerHTML = dayTotal;
+    medLogObj.dayTotal = dayTotal;
+    sitPercentField.innerHTML = makePercent(
+        sitTotal / (sitGoal * 60)
+    );
+    actPercentField.innerHTML = makePercent(
+        actTotal / (actGoal * 60)
+    );
+    grandPercentField.innerHTML = makePercent(
+        grandTotal / (grandGoal * 60)
+    );
+    daysPercentField.innerHTML = makePercent(
+        dayTotal / dayGoal
+    );
+    medLogObj.statInfo = content.innerHTML;
+}
 function recordEntry() {
     "use strict";
     /*jslint browser: true*/
@@ -254,7 +337,7 @@ function recordEntry() {
         notes = document.getElementById("notes"),
         notesField = document.getElementById("notesField"),
         recordField = document.getElementById("recordField"),
-        entry = document.getElementsByClassName("entry")[0];
+        entry = document.getElementById("entry");
     /* check all required areas are filled in */
     if (dateField.getElementsByTagName("select")[0] !==
             undefined || notes.value === "" ||
@@ -310,107 +393,38 @@ function initMeditationLog() {
     type_select.addEventListener("change", updateMediType);
     record_button.addEventListener("click", recordEntry);
 }
-function onlyUnique(value, index, self) {
+function getLogHTML() {
     "use strict";
-    return self.indexOf(value) === index;
-}
-function countDays() {
-    "use strict";
-    var dates = findElementsOfEntries("#dateField", 1),
-        dateValues = dates.map(function (dateEl) {
-            return dateEl[0].innerHTML;
-        }),
-        numberOfDays = 0;
-    numberOfDays = dateValues.filter(onlyUnique).length;
-    return numberOfDays;
-}
-function makePercent(decimal) {
-    "use strict";
-    return Math.ceil(decimal * 100) + "%";
-}
-function initStatScreen() {
-    "use strict";
-    /*jslint browser: true*/
-    var stat_screen = document.getElementById("statScreen"),
-        sitGoal = medLogObj.sitGoal,
-        actGoal = medLogObj.actGoal,
-        dayGoal = medLogObj.dayGoal,
-        grandGoal = parseInt(actGoal, 10) + parseInt(sitGoal, 10),
-        sitTotal = medLogObj.sitTotal,
-        actTotal = medLogObj.actTotal,
-        grandTotal = medLogObj.grandTotal,
-        dayTotal = medLogObj.dayTotal,
-        sitTotalField,
-        sitPercentField,
-        actTotalField,
-        actPercentField,
-        grandTotalField,
-        grandPercentField,
-        daysTotalField,
-        daysPercentField;
-    setContent(stat_screen.innerHTML);
-    /* load fields */
-    sitTotalField = document.getElementById("sitTotal");
-    actTotalField = document.getElementById("actTotal");
-    grandTotalField = document.getElementById("combinedTotal");
-    daysTotalField = document.getElementById("daysTotal");
-    sitPercentField = document.getElementById("sitPercent");
-    actPercentField = document.getElementById("actPercent");
-    grandPercentField = document.getElementById("combinedPercent");
-    daysPercentField = document.getElementById("daysPercent");
-    /* set fields */
-    sitTotalField.innerHTML = minToMinHr(sitTotal);
-    actTotalField.innerHTML = minToMinHr(actTotal);
-    grandTotalField.innerHTML = minToMinHr(grandTotal);
-    dayTotal = countDays();
-    daysTotalField.innerHTML = dayTotal;
-    medLogObj.dayTotal = dayTotal;
-    sitPercentField.innerHTML = makePercent(
-        sitTotal / (sitGoal * 60)
-    );
-    actPercentField.innerHTML = makePercent(
-        actTotal / (actGoal * 60)
-    );
-    grandPercentField.innerHTML = makePercent(
-        grandTotal / (grandGoal * 60)
-    );
-    daysPercentField.innerHTML = makePercent(
-        dayTotal / dayGoal
-    );
+    var logTemplate = document.getElementById("logTemplate"),
+        summaryArea,
+        summaryInfo,
+        //name,
+        entries;
+    initStatScreen();// make sure stats have been calculated
+    setContent(logTemplate.innerHTML);
+    //name = document.getElementById("name"),
+    summaryArea = document.getElementById("summary");
+    entries = document.getElementById("entries");
+    //name.innerHTML = medLogObj.username;
+    summaryInfo = medLogObj.setupInfo + medLogObj.statInfo;
+    summaryArea.innerHTML = summaryInfo;
+    console.log("summaryInfo "+summaryInfo);
+    entries.innerHTML += "<center><h4>Meditation Log Entries" +
+        "</h4></center>";
+    medLogObj.entryArray.forEach(function (entry) {
+        entries.innerHTML += entry;
+    });
+    return logTemplate.innerHTML;
 }
 function initViewLog() {
     "use strict";
-    var logTemplate = document.getElementById("logTemplate"),
-        summaryArea,
-        //name,
-        entries;
-    setContent(logTemplate.innerHTML);
-    //name = document.getElementById("name"),
-    summaryArea = document.getElementById("summary");
-    entries = document.getElementById("entries");
-    //name.innerHTML = medLogObj.username;
-    summaryArea.innerHTML = medLogObj.setupInfo;
-    medLogObj.entryArray.forEach(function (entry) {
-        entries.innerHTML += entry;
-    });
+    getLogHTML();
 }
 function downloadLog() {
     "use strict";
-    var logTemplate = document.getElementById("logTemplate"),
-        summaryArea,
-        //name,
-        entries;
-    setContent(logTemplate.innerHTML);
-    //name = document.getElementById("name"),
-    summaryArea = document.getElementById("summary");
-    entries = document.getElementById("entries");
-    //name.innerHTML = medLogObj.username;
-    summaryArea.innerHTML = medLogObj.setupInfo;
-    medLogObj.entryArray.forEach(function (entry) {
-        entries.innerHTML += entry;
-    });
+    var logHTML = getLogHTML();
     download(medLogObj.username + "_meditation_log.html",
-        logTemplate.innerHTML);
+        logHTML);
 }
 function initRemovalScreen() {
     "use strict";
@@ -442,7 +456,7 @@ function initMainMenu() {
     addEntry_button = document.getElementById("addEntry");
     //delEntry_button = document.getElementById("delEntry");
     stats_button    = document.getElementById("stats");
-    download_button = document.getElementById("viewLog");
+    viewLog_button = document.getElementById("viewLog");
     download_button = document.getElementById("download");
     //meditate_button.addEventListener("click", initMeditationScreen);
     addEntry_button.addEventListener("click", initMeditationLog);

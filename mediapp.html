@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html;
     charset=utf-8"/>
 <link rel="stylesheet"
-href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
 <!-- jQuery library -->
 <script
 src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -103,6 +103,11 @@ preload="auto">
 <script id="statScreen" type="text/html">
     <table class="table">
     <tr>
+    <th colspan="3">
+        <center><h4>Meditation Log Statistics</h4></center>
+    </th>
+    </tr>
+    <tr>
     <th>Type</th><th>Completed</th><th>Achieved</th>
     </tr>
     <tr>
@@ -198,13 +203,18 @@ id="daysPercent"></td>
 <div id="setupDiv" class="table-responsibe">
     <table class="table">
     <tr>
+    <th colspan="3">
+        <center><h4>Setup Info</h4></center>
+    </th>
+    </tr>
+    <tr>
         <td>Meditators Name: </td>
         <td id="nameField">
             <input class="form-control" type="text" name="name"></input>
         </td>
     </tr>
     <tr>
-        <th><center>Goals</center></th></th></th>
+        <th><center>Goals</center></th><th></th>
     </tr>
     <tr>
         <td>Sitting Meditation hours: </td>
@@ -255,7 +265,7 @@ id="daysPercent"></td>
 </script>
 
 <script id="theEntry" type="text/html">
-<div class="entry" class="table-responsive">
+<div id="entry" class="table-responsive">
 <table  class="table" summary="meditation log input form">
     <tr><td>type*: </td><td id="mediField">
     <select class="form-control" name="mediType">    
@@ -372,7 +382,7 @@ id="daysPercent"></td>
     </tr>
     <tr>
         <!-- <th>day's total:</th><td id="day-total"></td> -->
-        <th colspan=2></th>
+        <th colspan="2"></th>
         <th>grand total:</th><td id="grand-total"></td>
     </tr>
     <tr>
