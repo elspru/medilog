@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<svg height="600" width="600" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50%" cy="50%" r="50%" fill="red" />
+<ellipse cx="22" cy="22" ry="14" rx="14" stroke="black"  fill="white"/>
+<ellipse cx="22" cy="22" ry="8" rx="8" stroke="black"  fill="white"/>
+<ellipse cx="22" cy="22" ry="6" rx="6" stroke="black"  fill="white"/>
+<ellipse cx="22" cy="22" ry="2" rx="2" stroke="black" />
+<path d="M0,22 Q22,7 44,22 M0,22 Q22,-12 44,22" fill="white" 
+stroke="black" style="fill-rule:evenodd;" />
+<path d="M0,22 Q22,44 44,22 M0,22 Q22,56 44,22" fill="white"
+stroke="black" style="fill-rule:evenodd"/>
+</svg>
+

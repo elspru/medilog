@@ -1,0 +1,48 @@
+body, btn-group, navbar, navbar-default {
+    background-color: hsl(0,0%,0%);
+    color: hsl(90,100%,62%);
+}
+img, svg{
+    max-width: 100%;
+}
+.form-group {
+    color: hsl(90,61%,61%);
+    background-color:black;
+    border-color: hsl(90,100%,62%);
+    border-radius:1em;
+}
+.form-control{
+    color: hsl(90,61%,61%);
+    background-color:black;
+    border-color: hsl(90,100%,62%);
+    border-radius:1em;
+}
+.panel {
+    color: hsl(90,100%,62%);
+    background-color: black;
+    border-color: hsl(90,100%,62%);
+    border-radius:1em;
+}
+.panel-body {
+    color: hsl(105,86%,61%); 
+    background-color: black;
+    border-radius:1em;
+}
+.panel-heading {color: hsl(105,61%,61%);background-color:black;}
+
+/* for svg */
+@keyframes flashing {
+    /*25%  {fill: red; stroke: cyan;}
+    50%  {fill: green; stroke: magenta;}
+    75%  {fill: blue; stroke: yellow;}*/
+    0%   {fill: black; stroke: green;}
+    33%  {fill: black; stroke: green;}
+    66%  {fill: green; stroke: black;}
+    100% {fill: green; stroke: black;}
+}
+ellipse, path {
+    fill: black;
+    stroke: green;
+    stroke-width: 3.4%;
+    animation-name: flashing;
+}

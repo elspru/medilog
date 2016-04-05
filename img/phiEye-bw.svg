@@ -1,8 +1,21 @@
-<svg height="32" width="32">
-<ellipse cx="16" cy="16" ry="11" rx="16" stroke="black" fill="white"/>
-<ellipse cx="16" cy="16" ry="11" rx="11" stroke="black"  fill="white"/>
-<ellipse cx="16" cy="16" ry="7" rx="7" stroke="black"  fill="white"/>
-<ellipse cx="16" cy="16" ry="4" rx="4" stroke="black"  fill="white"/>
-<ellipse cx="16" cy="16" ry="3" rx="3" stroke="black"  fill="white"/>
-<ellipse cx="16" cy="16" ry="1" rx="1" stroke="black" />
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.1" height="100%" width="100%" 
+    xmlns="http://www.w3.org/2000/svg"
+>
+<style type="text/css">
+ellipse, path {
+    fill: white;
+    stroke: black;
+    stroke-width: 3.4%;
+}
+</style>
+<ellipse cx="50%" cy="50%" ry="31%" rx="31%"   />
+<ellipse cx="50%" cy="50%" ry="18%" rx="18%"   />
+<ellipse cx="50%" cy="50%" ry="13%" rx="13%"   />
+<ellipse cx="50%" cy="50%" ry="4%" rx="4%"  />
+<!-- eyelashes -->
+<path d="m0,22 Q22,7 44,22 M0,22 Q22,-12 44,22"  
+ style="fill-rule:evenodd;" />
+<path d="M0,22 Q22,44 44,22 M0,22 Q22,56 44,22" 
+ style="fill-rule:evenodd"/>
 </svg>
