@@ -67,11 +67,11 @@ preload="auto">
     </div>
 </div>
 <div id="tempArea"></div>
-<p><center>Designed for use with Firefox
+<div id="designed"><center>Designed for use with Firefox
 <a href="http://getfirefox.com">
 <img alt="firefox logo" src="img/firefox_logo.svg" height="32"
 width="32"/></a></center>
-</p>
+</div>
 <script id="loginScreen" type="text/html">
     <ul>
         <li><button type="button">Start New</button></li>
@@ -166,7 +166,7 @@ ellipse {
     <div class="form-group">
         <label for="brainwave">Entrain Brainwave: </label>
         <select id="brainwave" class="form-control">
-                <option value="none">None</option>
+                <option selected="true" value=""></option>
                 <option value="alpha">Alpha Introspection</option>
                 <option value="theta">Theta Subconscious</option>
                 <option value="beta">Beta Awake</option>
@@ -492,13 +492,15 @@ ellipse {
             <option value=""></option>
             <option value="breath">breath</option>
             <option value="body">body</option>
-            <option value="shamata">shamatha</option>
+            <option value="subconscious">subconscious</option>
+            <option value="shamatha">shamatha</option>
             <option value="mantra">mantra</option>
             <option value="vipassana">vipassana</option>
             <option value="tummo">tummo</option>
             <option value="other">other</option>
         </select>
         <label for="brainwave">main brainwave: </label>
+        <div id="brainwaveField">
         <select id="brainwave" class="form-control">
             <option selected="true" value=""></option>
             <option value="alpha">Alpha Introspection</option>
@@ -509,6 +511,7 @@ ellipse {
             <option value="sigma">Sigma Relaxation</option>
             <option value="schuman">Schuman Earth Resonance</option>
         </select>
+        </div>
         </div>
     </div>
     </div>
@@ -583,7 +586,26 @@ ellipse {
 </div>
 </script>
 
+<script id="register" type="text/html">
+<label for="username">Username:</label> 
+<input class="form-control" type="text" id="username"/>
+<label for="email">Email:</label> 
+<input class="form-control" type="email" id="email"/>
+<label for="password">Password:</label> 
+<input class="form-control" type="password" name="password" id="password"/>
+<label for="rpassword">Repeat Password:</label> 
+<input class="form-control" type="password" name="password" id="rpassword"/>
+<label for="remmeber">Remember Password:</label> 
+        <input type="checkbox" id="remember" checked="true">
+<button class="btn btn-default" id="login" type="button">
+        Login</button>
+<button class="btn btn-default" id="offline" type="button">
+        Use Offline</button>
+</script>
+
+
 <script src="http://wyn.bot.nu:8087/socket.io/socket.io.js"></script>
-<script src="js/index-0.2.js"></script>
+<script src="js/sjcl.js"></script>
+<script src="js/index-0.1.js"></script>
 </body>
 </html>

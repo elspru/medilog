@@ -1,4 +1,5 @@
 console.log("initializing script");
+    
 var medLogObj = {},
     storageAvailable = false,
     socket,
@@ -18,20 +19,46 @@ var medLogObj = {},
         this.duration = 0;
         this.notes = "";
     };
-stat.total = 0,
-stat.actTotal = 0,
-stat.sitTotal = 0,
-stat.daysTotal = 0,
-stat.totalDays = 0,
-stat.actDays = 0,
-stat.sitDays = 0,
-stat.prevDate = new Date(),
+function Stat() {
+    this.total = 0;
+    this.actTotal = 0;
+    this.sitTotal = 0;
+    this.daysTotal = 0;
+    this.totalDays = 0;
+    this.actDays = 0;
+    this.sitDays = 0;
+    this.prevDate = new Date(0);
+    this.prevSitDate = new Date(0);
+    this.prevActDate = new Date(0);
+}
+stat = new Stat();
+function getUser(name) {
+    var tempLog = localStorage.getItem(name),
+        resultLog;
+    if (tempLog) {
+        resultLog = JSON.parse(tempLog);
+    } else {
+        resultLog = new LogObj(name);
+    }
+    return resultLog;
+}
+function storeLocally  () {
+    if (storageAvailable) {
+        localStorage.setItem("username",
+            JSON.stringify(medLogObj));
+        localStorage.setItem(medLogObj.username.toLowerCase(),
+            JSON.stringify(medLogObj));
+    }
+}
+
+
 /* start daylight savings time checker */
 Date.prototype.stdTimezoneOffset = function() {
     var jan = new Date(this.getFullYear(), 0, 1);
     var jul = new Date(this.getFullYear(), 6, 1);
     return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
 }
+
 
 Date.prototype.dst = function() {
     return this.getTimezoneOffset() < this.stdTimezoneOffset();
@@ -51,6 +78,25 @@ function nodeListToArray(nl) {
 }
 /* end daylight savings time checker */
 defaultObj.username = "First Last";
+function LogObj(username) {
+    this.entryArray = [];
+    if (username) {
+        this.username = username;
+    } else {
+        this.username = defaultObj.username;
+    }
+    this.theme = "auto";
+    this.sitGoal = 4;
+    this.actGoal = 4;
+    this.dayGoal = 20;
+    this.setupInfo = "";
+    this.statInfo = "";
+    this.grandTotal = 0;
+    this.sitTotal = 0;
+    this.actTotal = 0;
+    this.dayTotal = 0;
+    this.entryObjArray = [];
+}
 medLogObj.entryArray = [];
 medLogObj.username = defaultObj.username;
 medLogObj.theme = "auto";
@@ -272,8 +318,12 @@ function initMeditation(mediObj) {
         audioOutro.play();
         endTime = new Date();
         duration = Math.round((endTime - startTime)/1000/60);
-        mediObj.realDuration = duration;
-        initMeditationLog(mediObj);
+        if (duration < 1) { 
+            initMeditationScreen();
+        } else {
+            mediObj.realDuration = duration;
+            initMeditationLog(mediObj);
+        }
     }
     function setFlashing(hertz) {
         if (hertz === 0) {
@@ -282,6 +332,7 @@ function initMeditation(mediObj) {
         }
         animationDuration = Math.round(1/hertz*1000)/1000;
         numberOfIterations = 1*60*hertz;
+        imgStyle.innerHTML = "";
         imgStyle.innerHTML = "ellipse{animation-duration:" +
             animationDuration +"s;animation-iteration-count:" +
             numberOfIterations + ";}";
@@ -308,10 +359,7 @@ function initMeditation(mediObj) {
         meditation_screen = document.
             getElementById("meditatingScreen");
     medLogObj.mediObj = mediObj;
-    if (storageAvailable) {
-        localStorage.setItem("username",
-            JSON.stringify(medLogObj));
-    }
+    storeLocally();
     setContent(meditatingScreen.innerHTML);
     imgStyle = document.getElementById("imgStyle");
     phiCirc = document.getElementById("phiCirc");
@@ -673,6 +721,8 @@ function recordEntry() {
         eyesField = document.getElementById("eyesField"),
         focus = document.getElementsByName("focus")[0],
         focusField = document.getElementById("focusField"),
+        brainwaveField = document.getElementById("brainwaveField"),
+        brainwave = document.getElementById("brainwave"),
         duration = document.getElementsByName("duration")[0],
         durationField = document.getElementById("durationField"),
         notes = document.getElementById("notes"),
@@ -708,6 +758,7 @@ function recordEntry() {
     entryObj.eyes = eyes.value;
     focusField.innerHTML = focus.value;
     entryObj.focus = focus.value;
+    entryObj.brainwave = brainwave.value;
     durationField.innerHTML = "0:" + duration.value;
     durationField.dataset.value = duration.value;
     entryObj.duration = duration.value;
@@ -717,13 +768,11 @@ function recordEntry() {
     /* record HTML as an entry */
     medLogObj.entryArray.push(entry.innerHTML);
     medLogObj.entryObjArray.push(entryObj);
-    if (storageAvailable) {
-        localStorage.setItem("username",
-            JSON.stringify(medLogObj));
-    }
+    storeLocally();
     /*global initMainMenu*/
     if (online) {
         socket.send(medLogObj.username + " recorded entry");
+        uploadToServer();
     }
     initStatScreen();
 }
@@ -763,10 +812,7 @@ function recordArEntry() {
     entryObj.notes = notesField.innerHTML;
     /* record HTML as an entry */
     medLogObj.entryObjArray.push(entryObj);
-    if (storageAvailable) {
-        localStorage.setItem("username",
-            JSON.stringify(medLogObj));
-    }
+    storeLocally();
     /*global initMainMenu*/
     initStatScreen();
 }
@@ -776,9 +822,12 @@ function initMeditationLog(mediObj) {
     var theEntry =
         document.getElementById("theEntry"),
         type_select,
+        focus,
+        focusField,
         durationEl,
         durationField,
         durationOption,
+        brainwaveField,
         brainwaveOption,
         date_field,
         date_select,
@@ -790,10 +839,13 @@ function initMeditationLog(mediObj) {
     setContent(theEntry.innerHTML);
     updateTotal();
     /* elements */
+    focus = document.getElementsByName("focus")[0];
+    focusField = document.getElementById("focusField");
     durationEl = document.getElementsByName("duration")[0];
     type_select = document.getElementsByName("mediType")[0];
     record_button = document.getElementById("record");
-    /* event listeners */
+    /* mediObj settings */
+    console.log(mediObj.realDuration);
     if (mediObj.realDuration) {
         durationOption = document.createElement("option");
         durationOption.text = minToMinHr(mediObj.realDuration);
@@ -806,16 +858,15 @@ function initMeditationLog(mediObj) {
         hour = date.getLocalHours();
         if (hour < 4) {
             tod_select.selectedIndex = 4;
-        } else if (hours < 10) {
+        } else if (hour < 10) {
             tod_select.selectedIndex = 1;
-        } else if (hours < 16) {
+        } else if (hour < 16) {
             tod_select.selectedIndex = 2;
-        } else if (hours < 22) {
+        } else if (hour < 22) {
             tod_select.selectedIndex = 3;
-        } else if (hours < 24) {
+        } else if (hour < 24) {
             tod_select.selectedIndex = 4;
         }
-        
     } 
     if (mediObj.brainwave) {
         brainwave = document.getElementById("brainwave");
@@ -825,16 +876,24 @@ function initMeditationLog(mediObj) {
         brainwave.add(brainwaveOption, 0);
         brainwave.selectedIndex = 0;
     } 
-    if (mediObj.duration) {
+    date_select = document.getElementsByName("dateSelect")[0];
+    date_select.addEventListener("change", setDate);
+    if (mediObj.realDuration) {
         date_field = document.getElementById("dateField");
         date_field.innerHTML = formatDate(new Date());
-    } else {
-        date_select = document.getElementsByName("dateSelect")[0];
-        date_select.addEventListener("change", setDate);
-    }
+    } 
+    /* event listeners */
     durationEl.addEventListener("change", updateTotal);
     type_select.addEventListener("change", updateMediType);
     record_button.addEventListener("click", recordEntry);
+    focus.addEventListener("change", function() {
+        if (focus.value === "other") {
+            focusField.innerHTML = 
+                'please specify: <input class="form-control"' + 
+                ' type="text" name="focus" />';
+        }
+    });
+    
 }
 function getLogHTML() {
     "use strict";
@@ -869,7 +928,9 @@ function convertEntryArrayToObj() {
 }
 
 function getLogData() {
-    return medLogObj;
+    var tempObj = medLogObj;
+    tempObj.password = "";
+    return tempObj;
 }
 
 function stringifyEntry(entry) {
@@ -946,6 +1007,9 @@ function stringifyEntry(entry) {
     if (entry.focus.length > 0) {
         returnBuffer += "<br/>" + ("focus " + entry.focus);
     } 
+    if (entry.brainwave && entry.brainwave.length > 0) {
+        returnBuffer += "<br/>" + ("brainwave " + entry.focus);
+    } 
     if (entry.notes.length > 0) {
         returnBuffer += "<br/>" + ("notes " + entry.notes);
     } 
@@ -969,17 +1033,7 @@ function sortByDates() {
 }
 function initViewLog() {
     "use strict";
-    stat.total = 0;
-    stat.total = 0;
-    stat.actTotal = 0;
-    stat.sitTotal = 0;
-    stat.daysTotal = 0;
-    stat.totalDays = 0;
-    stat.actDays = 0;
-    stat.sitDays = 0;
-    stat.prevDate = new Date(0);
-    stat.prevSitDate = new Date(0);
-    stat.prevActDate = new Date(0);
+    stat = new Stat();
     sortByDates();
     setContent(getLogString());
     console.log(JSON.stringify(medLogObj.entryObjArray));
@@ -1006,6 +1060,7 @@ function initRemovalScreen() {
 }
 function uploadToServer() {
             var data = getLogData();
+            data.request = "upload";
             socket.send(JSON.stringify(data)); 
             /*Data can be sent to server very easily by using 
             socket.send() method The data has to be changed to 
@@ -1083,6 +1138,13 @@ function initSetup() {
     actGoal.value = medLogObj.actGoal;
     dayGoal.value = medLogObj.dayGoal;
     themeRadio = nodeListToArray(themeRadio);
+    if (medLogObj.theme === "auto") {
+        themeRadio[0].checked = true;
+    } else if (medLogObj.theme === "day") {
+        themeRadio[1].checked = true;
+    } else if (medLogObj.theme === "night") {
+        themeRadio[2].checked = true;
+    }
     themeRadio.forEach(function (radioElem) {
        radioElem.addEventListener("click", function () {
             if (radioElem.checked) {
@@ -1092,6 +1154,11 @@ function initSetup() {
         }); 
     });
     accept_button.addEventListener("click", function () {
+        var tempLog;
+        if (name.value !== medLogObj.username && localStorage) {
+            medLogObj = getUser(name.value);
+            storeLocally();
+        }
         medLogObj.username = name.value;
         medLogObj.sitGoal = sitGoal.value;
         medLogObj.actGoal = actGoal.value;
@@ -1102,10 +1169,7 @@ function initSetup() {
         dayField.innerHTML = dayGoal.value;
         acceptField.innerHTML = "";
         medLogObj.setupInfo = setupDiv.innerHTML;
-        if (storageAvailable) {
-            localStorage.setItem("username",
-                JSON.stringify(medLogObj));
-        }
+        storeLocally();
         if (online) {
             socket.send(name.value + " accepted"); 
         }
@@ -1124,6 +1188,64 @@ function checkStorage() {
             "download your logs before closing the tab");
     }
 }
+function initRegistration() {
+    var passwordPage,
+        username_field,
+        email_field,
+        password_field,
+        rpassword_field,
+        remember_box,
+        login_button,
+        offline_button;
+    passwordPage = document.getElementById("register");
+    setContent(passwordPage.innerHTML);
+    username_field = document.getElementById("username");
+    email_field = document.getElementById("email");
+    password_field = document.getElementById("password");
+    rpassword_field = document.getElementById("rpassword");
+    remember_box = document.getElementById("remember");
+    login_button = document.getElementById("login");
+    offline_button = document.getElementById("offline");
+    username_field.value = medLogObj.username;
+    if (medLogObj.email) {
+        email_field.value = medLogObj.email;
+    }
+    if (medLogObj.password) {
+        password_field.value = medLogObj.password;
+    }
+    if (medLogObj.remember === false ||
+            medLogObj.remember === true) {
+        remember_box.checked = medLogObj.remember;
+    }
+    offline_button.addEventListener("click", function() {
+        online = false;
+        initMeditationScreen();
+    });
+    login_button.addEventListener("click", function() {
+        comment(""); 
+        /* copy all fields to memory */
+        medLogObj.username = username_field.value;
+        if (username_field.value !== medLogObj.username &&
+                localStorage) {
+            medLogObj = getUser(username_field.value);
+            storeLocally();
+        }
+        medLogObj.email = email_field.value;
+        medLogObj.remember = remember_box.checked;
+        /* check passwords are matching */
+        if (password_field.value !== rpassword_field.value) {
+            comment('<div class="alert alert-danger">' +
+                " Passwords are not matching</div>");
+            initRegistration();
+        } else {
+            comment('<div class="alert alert-success">' +
+                " Passwords matching</div>");
+            medLogObj.password = password_field.value;
+            storeLocally();
+            initMeditationScreen();
+        }
+    });
+}
 
 function initSocket() {
     /*Initializing the connection with the server via websockets */
@@ -1136,26 +1258,72 @@ function initSocket() {
             The Callback function gets the dat sent from the 
             server 
         */
+        var tempLogOBj;
         console.log("Message from the server arrived")
         if (message === null) {
+            console.log (" null ");
             return false;
         }
         message = JSON.parse(message);
         console.log(message); 
+        if (message.salt) {
+            salt = message.salt;
+            if (!medLogObj.password) {
+                console.log("loading password page");
+                initRegistration();
+            }
+            socket.send(JSON.stringify((getPwdKey("password",
+                salt))));
+        } else if (message.session &&
+                message.data === "password accepted"){
+            medLogObj.session = message.session;
+            if (message.logObj) {
+            tempLogObj = JSON.parse(message.logObj);
+                if (tempLogObj.entryObjArray.length >
+                    medLogObj.entryObjArray.length &&
+                    medLogObj.password) {
+                    tempLogObj.password = medLogObj.password;
+                    medLogObj = tempLogObj;
+                }
+            }
+            comment("<p></p>");
+            initMeditationScreen();
+            return true;
+        }
         /*converting the data into JS object */
         if (message.data === 
                 "Connection with the server established") {
-            socket.send(medLogObj.username);
-        } else {
+            var saltRequest = {
+                username: medLogObj.username,
+                request: "salt"
+            };
+            socket.send(saltRequest);
+        } else if (message.data === "salt") {
+        } else if (message.data) {
             comment('<div class="alert alert-info">' +
                 message.data +  "</div>");
         }
-        console.log(message.data);
     });
+}
+/* compute PBKDF2 on the password. */
+function getPwdKey(password, salt) {
+    var newStuff = {},
+        keyOBj;
+    newStuff.salt = salt;
+    keyObj = (sjcl.misc.cachedPbkdf2(password,
+            newStuff));
+    keyObj.username = medLogObj.username;
+    keyObj.data = "key";
+    return keyObj;
 }
 
 function init() {
     "use strict";
+    /* if firefox remove designed for area start */
+    if (typeof InstallTrigger !== 'undefined') {
+        document.getElementById("designed").innerHTML = "";
+    }
+    /* if firefox remove designed for area stop */
     checkStorage();
     var menu_button = document.getElementById("menu"),
         setup_button = document.getElementById("setup"),

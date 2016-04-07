@@ -20,3 +20,19 @@ tr:nth-child(odd){background-color: hsl(120,61%,61%)}
     border-radius:1em;
 }
 .panel-heading {background-color: hsl(105,61%,61%)}
+/* for svg */
+@keyframes flashing {
+    /*25%  {fill: red; stroke: cyan;}
+    50%  {fill: green; stroke: magenta;}
+    75%  {fill: blue; stroke: yellow;}*/
+    0%   {fill: green; stroke: black;}
+    33%  {fill: green; stroke: black;}
+    66%  {fill: black; stroke: green;}
+    100% {fill: black; stroke: green;}
+}
+ellipse, path {
+    fill: green;
+    stroke: black;
+    stroke-width: 3.4%;
+    animation-name: flashing;
+}
