@@ -123,7 +123,6 @@ function ping(ip, callback) {
         this.img.onload = function () {
             _that.inUse = false;
             _that.callback('responded');
-
         };
         this.img.onerror = function (e) {
             if (_that.inUse) {
@@ -1080,7 +1079,8 @@ function initMainMenu() {
         stats_button,
         viewLog_button,
         download_button,
-        serverUpload;
+        serverUpload,
+        login_button;
     setContent(mainMenu_screen.innerHTML);
     meditate_button = document.getElementById("meditate");
     addEntry_button = document.getElementById("addEntry");
@@ -1089,6 +1089,7 @@ function initMainMenu() {
     viewLog_button = document.getElementById("viewLog");
     download_button = document.getElementById("download");
     serverUpload = document.getElementById("toServer");
+    login_button = document.getElementById("loginButton");
     meditate_button.addEventListener("click", initMeditationScreen);
     addEntry_button.addEventListener("click", initMeditationLog);
     //delEntry_button.addEventListener("click", initRemovalScreen);
@@ -1097,8 +1098,13 @@ function initMainMenu() {
     download_button.addEventListener("click", downloadLog);
     if (online === true) {
         serverUpload.addEventListener("click", uploadToServer);
+        login_button.addEventListener("click", initRegistration);
     } else {
         serverUpload.addEventListener("click", function() {
+            comment('<div class="alert alert-danger">'+
+                "server appears to be offline</div>");
+        });
+        login_button.addEventListener("click", function() {
             comment('<div class="alert alert-danger">'+
                 "server appears to be offline</div>");
         });
@@ -1242,6 +1248,11 @@ function initRegistration() {
                 " Passwords matching</div>");
             medLogObj.password = password_field.value;
             storeLocally();
+            var saltRequest = {
+                username: medLogObj.username,
+                request: "salt"
+            };
+            socket.send(saltRequest);
             initMeditationScreen();
         }
     });
@@ -1271,17 +1282,22 @@ function initSocket() {
             if (!medLogObj.password) {
                 console.log("loading password page");
                 initRegistration();
+            } else {
+                socket.send(JSON.stringify((getPwdKey(
+                    medLogObj.password, salt))));
             }
-            socket.send(JSON.stringify((getPwdKey("password",
-                salt))));
         } else if (message.session &&
                 message.data === "password accepted"){
             medLogObj.session = message.session;
-            if (message.logObj) {
+            if (message.logObj.length > 0) {
             tempLogObj = JSON.parse(message.logObj);
-                if (tempLogObj.entryObjArray.length >
+                if (tempLogObj.entryObjArray &&
+                    tempLogObj.entryObjArray.length >
                     medLogObj.entryObjArray.length &&
                     medLogObj.password) {
+                    tempLogObj.password = medLogObj.password;
+                    medLogObj = tempLogObj;
+                } else if (tempLogObj.entryArray) {
                     tempLogObj.password = medLogObj.password;
                     medLogObj = tempLogObj;
                 }
@@ -1315,6 +1331,29 @@ function getPwdKey(password, salt) {
     keyObj.username = medLogObj.username;
     keyObj.data = "key";
     return keyObj;
+}
+
+function checkIfOnline() {
+    "use strict";
+    var lineStatus = false;
+    if (!navigator.onLine) {
+        console.log("navigator offline");
+        lineStatus = false;
+    } else {
+        console.log("navigator online");
+        lineStatus = true;
+        ping("wyn.bot.nu:8087/img/phiEye-32bw.png", function
+                (status, e)    {
+            console.log("ping: " + status + " " +
+                JSON.stringify(e));
+            if (status === 'responded') {
+                lineStatus = true;
+            } else {
+                lineStatus = false;
+            }
+        });
+    }
+    return lineStatus;
 }
 
 function init() {
@@ -1360,27 +1399,25 @@ function init() {
     } else {
         initSetup();
     }
+    if (!medLogObj.entryObjArray) {
+        console.log("entryObj Array created");
+        medLogObj.entryObjArray = [];
+    }
     if (medLogObj.entryArray && medLogObj.entryArray.length >
             medLogObj.entryObjArray.length) {
         console.log(medLogObj.entryArray[0]);
         convertEntryArrayToObj();
     }
-    ping("wyn.bot.nu:8087/img/phiEye-32bw.png", function (status, e)    {
-        console.log("ping: " + status + " " + JSON.stringify(e));
-        if (status === 'responded') {
-            online = true;
+    online = checkIfOnline();
+    if (online === true) {
+            console.log("online");
             socket = io.connect("http://wyn.bot.nu:8087");
             console.log(socket);
             initSocket();
-        }
-    });
+    } else {
+        console.log("offline");
+    }
 }
 
-function sendToServer(name, data) {
-    "use strict";
-    // create form directed to server
-    // put data as text
-    // submit form
-}
 
 init();

@@ -94,7 +94,12 @@ function manageConnection(socket){
                 salt = getSalt();
                 authObj[user].session = salt;
                 clientAck.session = salt;
-                clientAck.data = "password accepted";
+                if (fs.existsSync("../.logs/" + user + ".json")){
+                clientAck.logObj = fs.readFileSync("../.logs/" +
+                    user + ".json", "utf8");
+                } else {
+                    console.log("user log does not exist");
+                }
                 console.log("key recorded");
             } else if (authObj[user].key.equals(data.key)) {
                     if (!authObj[user].session) {
